@@ -10,7 +10,68 @@ const handleValidationErrors = require('../middlewares/errors/handleValidationEr
 const abortSignal = require('../middlewares/abort');
 
 
-// ROUTES
+// ---------- SWAGGER COMMENTS ----------
+
+/**
+ * @swagger
+ * /api/payment/create-payment:
+ *   post:
+ *     summary: Initiate Stripe checkout session
+ *     tags: [Payment]
+ *     security:
+ *       - cookieAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - items
+ *             properties:
+ *               items:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     productId:
+ *                       type: string
+ *                     quantity:
+ *                       type: integer
+ *               shippingAddress:
+ *                 type: object
+ *                 properties:
+ *                   street:
+ *                     type: string
+ *                   city:
+ *                     type: string
+ *                   state:
+ *                     type: string
+ *                   zipCode:
+ *                     type: string
+ *                   country:
+ *                     type: string
+ *     responses:
+ *       200:
+ *         description: Stripe session created, contains redirect URL
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 sessionId:
+ *                   type: string
+ *                 url:
+ *                   type: string
+ *                 orderId:
+ *                   type: string
+ *       400:
+ *         description: Cart empty or product unavailable
+ *       401:
+ *         description: Not authenticated
+ */
 router.post('/create-payment',
     abortSignal,
     ...paymentValidator.createPayment,
@@ -18,6 +79,22 @@ router.post('/create-payment',
     paymentController.createPayment
 );
 
+/**
+ * @swagger
+ * /api/payment/webhook:
+ *   post:
+ *     summary: Stripe webhook endpoint (no auth)
+ *     tags: [Payment]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *     responses:
+ *       200:
+ *         description: Webhook received
+ */
 router.post('/webhook',
     paymentController.webhookController
 );

@@ -41,6 +41,11 @@ const timeout = require('./middlewares/timeout');
 const homepageRoute = require('./routes/homepage');
 
 
+// for Swagger
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./config/ui-tests/swagger');
+
+
 // creating an app instance
 const app = express();
 
@@ -73,6 +78,9 @@ app.use(timeout);
 // for webhook only - raw body should be passed 
 // before paresed by express
 app.use('/api/payment/webhook', express.raw({ type: 'application/json' }));
+
+// for swagger testing
+app.use('/api-docs', swaggerUi.serve,swaggerUi.setup(swaggerSpec));
 
 
 // built-in / express middlewares
