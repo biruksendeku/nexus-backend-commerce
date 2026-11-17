@@ -52,6 +52,28 @@ const app = express();
 
 // overall health check - before anything to prevent 
 // ratelimits and auth middlewares being applied to it
+/**
+ * @swagger
+ * /health:
+ *   get:
+ *     summary: Check API health
+ *     tags: [Health]
+ *     responses:
+ *       200:
+ *         description: API is running
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: ok
+ *                 uptime:
+ *                   type: number
+ *                 timestamp:
+ *                   type: integer
+ */
 app.get('/health', (req, res) => {
 	res.status(200).json({
 		status: 'ok',
@@ -145,7 +167,7 @@ app.use('/auth', authRoutes);
 app.use('/password', passwordRoutes);
 app.use('/api/verify', verificationRoutes);
 app.use('/products', isLoggedIn, productRoutes);
-app.use('/api/payment', isLoggedIn, paymentRoutes);
+app.use('/api/payment', paymentRoutes);
 app.use('/account', isLoggedIn, accountRoutes);
 app.use('/admin', isLoggedIn, isAdmin, adminRoutes);
 

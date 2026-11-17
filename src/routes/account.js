@@ -80,6 +80,8 @@ router.get('/profile',
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - name
  *             properties:
  *               name:
  *                 type: string
@@ -140,7 +142,7 @@ router.patch('/profile',
  *                 type: string
  *                 format: password
  *                 minLength: 8
- *                 maxLength: 32
+ *                 maxLength: 50
  *               confirmNewPassword:
  *                 type: string
  *                 format: password
@@ -189,7 +191,7 @@ router.patch('/change-password',
  *                 type: string
  *                 format: password
  *                 minLength: 8
- *                 maxLength: 32
+ *                 maxLength: 50
  *               confirmPassword:
  *                 type: string
  *                 format: password

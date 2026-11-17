@@ -2,6 +2,7 @@
 
 // import packages
 const swaggerJSDoc = require('swagger-jsdoc');
+const path = require('path');
 
 const companyName = process.env.YOUR_COMPANY_NAME || 'Nexus';
 
@@ -23,11 +24,12 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: process.env.BASE_URL || 'http://localhost:8000',
+      url: process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`,
       description: 'Development server',
     },
   ],
   tags: [
+      { name: 'Health', description: 'API availability and health checks' },
       { name: 'Auth', description: 'Registration, login, and OAuth (Google, Facebook)' },
       { name: 'Account', description: 'User profile, verification, and account management' },
       { name: 'Verification', description: 'Email verification and resend endpoints' },
@@ -101,7 +103,11 @@ const swaggerDefinition = {
 
 const options = {
   swaggerDefinition,
-  apis: ['./src/routes/*.js', './src/controllers/*.js'],
+  apis: [
+    path.resolve(__dirname, '../../app.js').replace(/\\/g, '/'),
+    path.resolve(__dirname, '../../routes/*.js').replace(/\\/g, '/'),
+    path.resolve(__dirname, '../../controllers/*.js').replace(/\\/g, '/'),
+  ],
 };
 
 

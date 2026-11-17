@@ -8,6 +8,7 @@ const paymentController = require('../controllers/payment');
 const paymentValidator = require('../middlewares/validator/payment');
 const handleValidationErrors = require('../middlewares/errors/handleValidationErrors');
 const abortSignal = require('../middlewares/abort');
+const { isLoggedIn } = require('../middlewares/role');
 
 
 // ---------- SWAGGER COMMENTS ----------
@@ -73,6 +74,7 @@ const abortSignal = require('../middlewares/abort');
  *         description: Not authenticated
  */
 router.post('/create-payment',
+    isLoggedIn,
     abortSignal,
     ...paymentValidator.createPayment,
     handleValidationErrors,

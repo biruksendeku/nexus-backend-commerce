@@ -34,10 +34,12 @@ const handleValidationErrors = require('../middlewares/errors/handleValidationEr
  *                 type: string
  *                 format: password
  *                 minLength: 8
+ *                 maxLength: 50
  *               confirmNewPassword:
  *                 type: string
  *                 format: password
  *                 minLength: 8
+ *                 maxLength: 50
  *     responses:
  *       201:
  *         description: Reset link sent

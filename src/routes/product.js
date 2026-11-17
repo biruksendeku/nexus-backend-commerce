@@ -18,6 +18,8 @@ const abortSignal = require('../middlewares/abort');
  *   get:
  *     summary: Get list of products (shop)
  *     tags: [Products]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: query
  *         name: page
@@ -33,13 +35,13 @@ const abortSignal = require('../middlewares/abort');
  *         name: sort
  *         schema:
  *           type: string
- *           enum: [price_asc, price_desc, newest, popular]
+ *           enum: [newest, oldest, price_high, price_low]
  *       - in: query
  *         name: category
  *         schema:
  *           type: string
  *       - in: query
- *         name: search
+ *         name: name
  *         schema:
  *           type: string
  *     responses:
@@ -72,6 +74,8 @@ router.get('/',
  *   post:
  *     summary: Add a product to the session cart
  *     tags: [Products]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -80,14 +84,18 @@ router.get('/',
  *           type: string
  *         description: Product ID
  *     requestBody:
+ *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - quantity
  *             properties:
  *               quantity:
  *                 type: integer
- *                 default: 1
+ *                 minimum: 1
+ *                 maximum: 999
  *     responses:
  *       201:
  *         description: Item added to cart
@@ -108,6 +116,8 @@ router.post('/add-to-cart/:id',
  *   get:
  *     summary: Get current session cart
  *     tags: [Products]
+ *     security:
+ *       - cookieAuth: []
  *     responses:
  *       200:
  *         description: Cart contents
@@ -124,6 +134,8 @@ router.get('/cart',
  *   patch:
  *     summary: Update quantity of an item in cart
  *     tags: [Products]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -137,14 +149,18 @@ router.get('/cart',
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - quantity
  *             properties:
  *               quantity:
  *                 type: integer
+ *                 minimum: 1
+ *                 maximum: 999
  *     responses:
  *       200:
  *         description: Cart updated
- *       204:
- *         description: Item removed (quantity <= 0)
+ *       400:
+ *         description: Quantity must be between 1 and 999
  */
 router.patch('/update-cart/:id',
     ...productValidator.updateCart,
@@ -158,6 +174,8 @@ router.patch('/update-cart/:id',
  *   post:
  *     summary: Remove an item from cart
  *     tags: [Products]
+ *     security:
+ *       - cookieAuth: []
  *     parameters:
  *       - in: path
  *         name: id
