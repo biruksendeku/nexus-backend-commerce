@@ -1,29 +1,31 @@
 markdown
+
 # Nexus - Production‑ready e‑commerce backend — advanced dashboard and analytics, authentication, orders, payments, email, and more
 
 ## Testing is available at this website:
-  https://
 
+https://
 
 A battle‑tested, modular Node.js + Express.js + MongoDB backend for e‑commerce applications.  
 Built for teams who need to ship fast without sacrificing scalability or security.
 
 ---
 
-
 ## Help available at this email:
-	- devyaycodes@gmail.com
+
+    - devyaycodes@gmail.com
 
 ### ⚠️⚠️⚠️ Important Notice Before You Proceed ⚠️⚠️⚠️
-* Rename the ".env.example" into ".env" and put real environment variables
- before you proceed, otherwise the app WILL CRASH.
- The guide to get those variables is here in README.md file.
- The commonly used variables have been set, you can also reset them.
 
+- Rename the ".env.example" into ".env" and put real environment variables
+  before you proceed, otherwise the app WILL CRASH.
+  The guide to get those variables is here in README.md file.
+  The commonly used variables have been set, you can also reset them.
 
 ## 🚀 Features
 
 ### 🔐 Authentication & Security
+
 - Email/password local authentication
 - OAuth (Google)
 - Email verification & password reset flows
@@ -32,40 +34,47 @@ Built for teams who need to ship fast without sacrificing scalability or securit
 - Rate limiting and brute‑force protection
 
 ### 🛍️ Product Management
+
 - Full CRUD operations
 - Advanced filtering, sorting, and search
 - Popular & top‑selling product endpoints
 - Image upload & management via Cloudinary
 
 ### 🖼️ Image Handling
+
 - Upload up to 5 images per product
 - Delete individual images
 - Reorder images (drag‑and‑drop ready)
 - Set primary image
 
 ### 📊 Dashboard & Analytics
+
 - Revenue overview and order statistics
 - Top‑selling products
 - Recent orders and customer summaries
 - Ready‑to‑consume endpoints for your admin panel
 
 ### 💳 Payments
+
 - Stripe integration (checkout + webhooks)
 - Secure payment intent creation
 - Payment status tracking
 
 ### 📦 Orders
+
 - Order creation and lifecycle management
 - Coupon code support
 - Revenue calculation utilities
 - Shipping address handling
 
 ### 📧 Email Services
+
 - Transactional emails (verification, password reset, order confirmations, refunds, etc.)
 - Reusable, template‑based system with unified styling
 - Customizable company branding via environment variables
 
 ### ⚙️ Developer Experience
+
 - Clean, modular architecture (controllers → services → utils)
 - Centralized error handling
 - Input validation middleware
@@ -74,7 +83,6 @@ Built for teams who need to ship fast without sacrificing scalability or securit
 - Logging and retry logic built‑in
 
 ---
-
 
 ## 📁 Project Structure
 
@@ -97,8 +105,6 @@ online-shop/
 ├── services/
 └── utils/
 
-
-
 ---
 
 ## 🛠️ Installation
@@ -108,7 +114,6 @@ online-shop/
 bash
 git clone <your-repo-url>
 cd online-shop
-
 
 1. Install dependencies
 
@@ -137,6 +142,11 @@ STATIC_DIR=./public/
 # Security
 SESSION_SECRET_KEY=keyboard_cat
 SALT=10
+
+# RATELIMIT TIMES - ALL IN MINUTES!
+API_RATE_LIMITER_TIME=15
+AUTH_RATE_LIMITER_TIME=15
+PUBLIC_RATE_LIMITER_TIME=1
 
 # Token Config
 TOKEN_EXPIRATION_DAY=1
@@ -192,16 +202,16 @@ YOUR_COMPANY_ADDRESS=1 Corporate Drive, Suite 200, Anytown, ST 12345
 · Go to Developers → API Keys
 · Copy the Secret Key → STRIPE_SECRET_KEY
 · For webhook:
-  · Use the Stripe CLI or dashboard
-  · Add an endpoint → copy the signing secret → STRIPE_WEBHOOK_SECRET
+· Use the Stripe CLI or dashboard
+· Add an endpoint → copy the signing secret → STRIPE_WEBHOOK_SECRET
 
 ☁️ Cloudinary
 
 · Sign up on Cloudinary
 · From the Dashboard copy:
-  · Cloud Name → CLOUDINARY_CLOUD_NAME
-  · API Key → CLOUDINARY_API_KEY
-  · API Secret → CLOUDINARY_API_SECRET
+· Cloud Name → CLOUDINARY_CLOUD_NAME
+· API Key → CLOUDINARY_API_KEY
+· API Secret → CLOUDINARY_API_SECRET
 
 📧 Gmail (for Nodemailer)
 
@@ -306,12 +316,14 @@ Endpoint: POST /api/payment/create-payment
 This project is available in two tiers:
 
 ### 🆓 Freemium (Community Edition)
+
 - Full backend source code
 - All features except: [list what you limit, e.g., admin dashboard, priority support, team collaboration]
 - MIT License for personal and evaluation use
 - Public GitHub repository
 
 ### 💼 Premium (Production License)
+
 - Everything in Freemium, plus:
   - Complete admin dashboard frontend (SPA)
   - Stripe/email/webhook setup walkthrough video
@@ -330,5 +342,7 @@ Contributions, issues, and feature requests are welcome. Feel free to fork and o
 📄 License
 
 MIT License
+
+```
 
 ```
