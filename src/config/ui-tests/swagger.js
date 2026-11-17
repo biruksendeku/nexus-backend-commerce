@@ -3,13 +3,15 @@
 // import packages
 const swaggerJSDoc = require('swagger-jsdoc');
 
+const companyName = process.env.YOUR_COMPANY_NAME || 'Nexus';
+
 const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
-    title: process.env.YOUR_COMPANY_NAME,
+    title: companyName,
     version: '1.0.0',
     description: `
-    Official API documentation for the ${process.env.YOUR_COMPANY_NAME} e-commerce platform.
+    Official API documentation for the ${companyName} e-commerce platform.
     
     ## Authentication
     Most endpoints require prior authentication via session cookie (connect.sid). 

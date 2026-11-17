@@ -29,7 +29,6 @@ const { authLimiter } = require('../middlewares/ratelimit');
  *               - email
  *               - password
  *               - confirmPassword
- *               - userRole
  *             properties:
  *               name:
  *                 type: string
@@ -139,10 +138,37 @@ router.get('/google',
     authController.google(passport)
 );
 
+/**
+ * @swagger
+ * /auth/google/callback:
+ *   get:
+ *     summary: Complete Google OAuth login
+ *     tags: [Auth]
+ *     description: |
+ *       OAuth callback used by Google after the user approves access.
+ *       This endpoint is not intended to be called directly.
+ *     responses:
+ *       302:
+ *         description: Redirects to the application home page on success
+ *       401:
+ *         description: Google authentication failed
+ */
 router.get('/google/callback',
     authController.googleCallback(passport)
 );
 
+/**
+ * @swagger
+ * /auth/logout:
+ *   get:
+ *     summary: Log out the current user
+ *     tags: [Auth]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       302:
+ *         description: Redirects to the login or home page
+ */
 router.get('/logout',
 	authController.logout
 );

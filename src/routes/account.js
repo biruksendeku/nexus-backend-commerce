@@ -131,7 +131,7 @@ router.patch('/profile',
  *             required:
  *               - currentPassword
  *               - newPassword
- *               - confirmPassword
+ *               - confirmNewPassword
  *             properties:
  *               currentPassword:
  *                 type: string
