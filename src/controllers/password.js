@@ -56,7 +56,7 @@ exports.forgotPassword = async (req, res, next) => {
 		}
 
 		// check if user has password - meaning logs in via "Local" strategy
-		if(user.password.length === 0) {
+		if(!user.password) {
 			let authProvider = user.authProvider[user.authProvider.length - 1];
 			// to format it like - "Google" instead of "google" we set before
 			authProvider = formatName(authProvider);
