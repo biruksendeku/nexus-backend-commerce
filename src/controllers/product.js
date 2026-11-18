@@ -99,7 +99,9 @@ exports.addToCart = async (req, res) => {
 		}
 
 		// check exusting product to simply add number on the item
-		const existingProduct = req.session.cart.find(item => item.id === productId);
+		const existingProduct = req.session.cart.find(item =>
+			String(item.id) === productId
+		);
 
 		if(existingProduct) {
 			// check if 1 additional would make it "out of stock"
@@ -204,7 +206,9 @@ exports.updateCart = async (req, res) => {
 		}
 
 		// find product index
-		const productIndex = req.session.cart.findIndex(item => item.id === productId);
+		const productIndex = req.session.cart.findIndex(item =>
+			String(item.id) === productId
+		);
 		if(productIndex !== -1) {
 			if(quantity <= 0) {
 				// remove if given negative or 0 quantity
@@ -256,7 +260,9 @@ exports.removeFromCart = async (req, res) => {
 		}
 
 		if(req.session.cart) {
-			req.session.cart = req.session.cart.filter(item => item.id !== productId);
+			req.session.cart = req.session.cart.filter(item =>
+				String(item.id) !== productId
+			);
 			req.session.save();
 			return res.status(200).json({
 				success: true,
