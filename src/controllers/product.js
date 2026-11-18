@@ -396,7 +396,12 @@ exports.addToWishlist = async (req, res) => {
 
 		// find user && add the productv id to the user object
 		const user = await User.findById(userId);
-		user.wishlist.push(product._id);
+		const alreadyInWishlist = user.wishlist.some(id =>
+			id.toString() === product._id.toString()
+		);
+		if (!alreadyInWishlist) {
+			user.wishlist.push(product._id);
+		}
 		await user.save();
 
 		// check client connection to prevent response if aborted
