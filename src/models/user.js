@@ -44,8 +44,7 @@ const userSchema = new mongoose.Schema(
     },
 
     // for later emails for daily or timely emails
-    // conditionally put this as - if(user.getEmail)
-    getMarketingEmail: {
+    getEmail: {
       type: Boolean,
       default: true,
     },
