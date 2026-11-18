@@ -62,13 +62,18 @@ exports.createPayment = async (req, res) => {
     const itemTotal = product.price * item.quantity;
     subtotal += itemTotal;
     
+    const primaryImage =
+      Array.isArray(product.images) && product.images[0]
+        ? product.images[0].url || product.images[0]
+        : null;
+
     // prepare Stripe line items
     lineItems.push({
       price_data: {
         currency: 'usd',
         product_data: {
           name: product.name,
-          images: [product.images[0].url] || '',
+          ...(primaryImage ? { images: [primaryImage] } : {}),
           metadata: {
             productId: product._id.toString()
           }
@@ -84,7 +89,7 @@ exports.createPayment = async (req, res) => {
       name: product.name,
       price: product.price,
       quantity: item.quantity,
-      image: product.images[0].url || ''
+      image: primaryImage || ''
     });
   }
   
