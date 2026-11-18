@@ -67,14 +67,12 @@ async function handleCheckoutCompleted(session) {
             throw new AppError(`Product ${item.product} not found`, 404);
           }
           
-          // check stock availability
-          if (product.quantity < item.quantity) {
-            throw new AppError(`Insufficient stock for ${product.name}`, 400);
-          }
-          
-          // atomic update
-          await Product.findByIdAndUpdate(
-            item.product,
+          // atomic update - only succeeds if enough stock remains
+          const updatedProduct = await Product.findOneAndUpdate(
+            {
+              _id: item.product,
+              quantity: { $gte: item.quantity }
+            },
             {
               $inc: {
                 quantity: -item.quantity,
@@ -82,8 +80,12 @@ async function handleCheckoutCompleted(session) {
               },
               $push: { orderedBy: userId }
             },
-            { session: session_db }
+            { session: session_db, new: true }
           );
+
+          if (!updatedProduct) {
+            throw new AppError(`Insufficient stock for ${product.name}`, 400);
+          }
         });
       }
       
