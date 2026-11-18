@@ -153,6 +153,11 @@ async function handleRefund(charge) {
     }).populate('user', 'email name'); // populating user
     
     if (order) {
+      if (order.paymentStatus === 'refunded') {
+        console.log(`[INFO] Refund for order ${order._id} already processed - skipping`);
+        return;
+      }
+
       order.paymentStatus = 'refunded';
       order.orderStatus = 'cancelled';
       await order.save();
