@@ -41,6 +41,7 @@ module.exports = function passportGoogle(passport) {
 						// user already uses Google
 						done(null, user);
 					}
+					return;
 				}
 
 				// a brand new user just creating account and using Google
