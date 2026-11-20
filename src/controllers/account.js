@@ -260,11 +260,7 @@ exports.deleteAccount = async (req, res, next) => {
         // check client connection to prevent response if aborted
         guard.check();
         
-        // send json response
-        res.status(204).json({
-            success: true,
-            message: 'Account deleted successfully'
-        });
+        res.status(204).end();
 
 };
 

@@ -155,12 +155,7 @@ exports.cart = async (req, res) => {
 
 		// check cart existance
 		if(!cart || cart.length === 0) {
-			return res.status(204).json({
-				success: false,
-				cart: [],
-				total: 0,
-				message: 'Looks like your cart is empty'
-			});
+			return res.status(204).end();
 		}
 		
 		const total = cart.reduce((sum, product) => {
@@ -213,10 +208,7 @@ exports.updateCart = async (req, res) => {
 			if(quantity <= 0) {
 				// remove if given negative or 0 quantity
 				req.session.cart.splice(productIndex, 1);
-				return res.status(204).json({
-					success: true,
-					message: 'Item removed from cart'
-				});
+				return res.status(204).end();
 			} else {
 				// check stock from database
 				const productItem = await Product.findById(productId);
@@ -310,10 +302,7 @@ exports.orderHistory = async (req, res) => {
 
 		// check orders existance
 		if(!orders) {
-			return res.status(204).json({
-				success: true,
-				message: 'Looks like you have no order history'
-			});
+			return res.status(204).end();
 		}
 
 		// check client connection to prevent response if aborted
