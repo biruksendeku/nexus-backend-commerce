@@ -301,7 +301,7 @@ exports.orderHistory = async (req, res) => {
 			.exec();
 
 		// check orders existance
-		if(!orders) {
+		if(orders.length === 0) {
 			return res.status(204).end();
 		}
 
