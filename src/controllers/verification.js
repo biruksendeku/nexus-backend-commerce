@@ -137,7 +137,7 @@ exports.resendVerification = async (req, res, next) => {
 
 		// send json response
 		res.status(200).json({
-			success: false,
+			success: true,
 			message: 'Verification link sent, check your email to verify'
 		});
 };
