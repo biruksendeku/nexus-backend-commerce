@@ -39,11 +39,11 @@ exports.dashboard = async (req, res) => {
       Product.countDocuments(),
       Product.countDocuments({ status: 'in stock' }),
       Product.countDocuments({ status: 'out of stock' }),
-      User.find({ createdAt: { $gte: daysAgo } }).sort({ createdAt: -1 }).lean().exec({ signal: req.signal }),
-      Order.find({ createdAt: { $gte: daysAgo } }).sort({ createdAt: -1 }).lean().exec({ signal: req.signal }),
-      Order.find({ orderStatus: 'pending' }).sort({ createdAt: 1 }).lean().exec({ signal: req.signal }),
-      Order.find({ orderStatus: 'delivered' }).sort({ createdAt: 1 }).lean().exec({ signal: req.signal }),
-      Order.find({ orderStatus: 'cancelled' }).sort({ createdAt: -1 }).lean().exec({ signal: req.signal }),
+      User.find({ createdAt: { $gte: daysAgo } }).sort({ createdAt: -1 }).lean().setOptions({ signal: req.signal }).exec(),
+      Order.find({ createdAt: { $gte: daysAgo } }).sort({ createdAt: -1 }).lean().setOptions({ signal: req.signal }).exec(),
+      Order.find({ orderStatus: 'pending' }).sort({ createdAt: 1 }).lean().setOptions({ signal: req.signal }).exec(),
+      Order.find({ orderStatus: 'delivered' }).sort({ createdAt: 1 }).lean().setOptions({ signal: req.signal }).exec(),
+      Order.find({ orderStatus: 'cancelled' }).sort({ createdAt: -1 }).lean().setOptions({ signal: req.signal }).exec(),
     ]);
 
   // Check client existence before sending response
@@ -55,8 +55,8 @@ exports.dashboard = async (req, res) => {
       getRevenue({ paymentStatus: 'paid', createdAt: { $gte: timeline.today } }, req.signal),
       getRevenue({ paymentStatus: 'paid', createdAt: { $gte: timeline.yesterday, $lte: timeline.yesterdayEnd } }, req.signal),
       getRevenue({ paymentStatus: 'paid' }, req.signal),
-      Order.find({ orderStatus: 'delivered', createdAt: { $gte: timeline.today } }).sort({ createdAt: -1 }).lean().exec({ signal: req.signal }),
-      Order.find({ orderStatus: 'delivered', createdAt: { $gte: timeline.yesterday, $lte: timeline.yesterdayEnd } }).sort({ createdAt: -1 }).lean().exec({ signal: req.signal }),
+      Order.find({ orderStatus: 'delivered', createdAt: { $gte: timeline.today } }).sort({ createdAt: -1 }).lean().setOptions({ signal: req.signal }).exec(),
+      Order.find({ orderStatus: 'delivered', createdAt: { $gte: timeline.yesterday, $lte: timeline.yesterdayEnd } }).sort({ createdAt: -1 }).lean().setOptions({ signal: req.signal }).exec(),
       calculateTopSellingProducts(req),
     ]);
 
@@ -121,7 +121,8 @@ exports.getAllProducts = async (req, res) => {
       .skip((page - 1) * limit)
       .limit(limit)
       .lean()
-      .exec({ signal: req.signal }),
+      .setOptions({ signal: req.signal })
+      .exec(),
     Product.countDocuments(filter),
     Product.countDocuments({ status: 'in stock' }),
     Product.countDocuments({ status: 'out of stock' }),
@@ -209,7 +210,8 @@ exports.getAllOrders = async (req, res) => {
       .limit(limit)
       .populate('user', 'name email')
       .lean()
-      .exec({ signal: req.signal }),
+      .setOptions({ signal: req.signal })
+      .exec(),
     Order.countDocuments(filter),
   ]);
 
@@ -282,7 +284,8 @@ exports.getOneOrder = async (req, res) => {
   const order = await Order.findById(orderId)
     .populate('user', 'name email')
     .lean()
-    .exec({ signal: req.signal });
+    .setOptions({ signal: req.signal })
+    .exec();
 
   // check order existence
   if (!order) throw new NotFoundError('Order');
@@ -665,7 +668,8 @@ exports.getAllUsers = async (req, res) => {
       .skip((page - 1) * limit)
       .limit(limit)
       .lean()
-      .exec({ signal: req.signal }),
+      .setOptions({ signal: req.signal })
+      .exec(),
     User.countDocuments(),
   ]);
 
@@ -750,7 +754,8 @@ exports.getOneUser = async (req, res) => {
   const user = await User.findById(req.params.id)
     .select('-password -__v')
     .lean()
-    .exec({ signal: req.signal });
+    .setOptions({ signal: req.signal })
+    .exec();
 
   // check user existence
   if (!user) throw new NotFoundError('User');

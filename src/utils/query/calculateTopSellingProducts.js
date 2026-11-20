@@ -22,7 +22,7 @@ const calculateTopSellingProducts = async (req) => {
 				as: 'productDetails'
 			}},
 			{ $unwind: '$productDetails' }
-		]).exec({ signal: req.signal });
+		]).option({ signal: req.signal }).exec();
 };
 
 

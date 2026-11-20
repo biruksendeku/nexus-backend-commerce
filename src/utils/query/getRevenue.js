@@ -8,7 +8,7 @@ const getRevenue = async (match, signal) => {
   const [result] = await Order.aggregate([
     { $match: match },
     { $group: { _id: null, total: { $sum: '$total' } } },   // ✅ changed totalAmount → total
-  ]).exec({ signal });
+  ]).option({ signal }).exec();
   return result?.total || 0;
 };
 

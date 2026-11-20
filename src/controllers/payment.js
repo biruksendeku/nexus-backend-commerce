@@ -45,7 +45,9 @@ exports.createPayment = async (req, res) => {
   const orderItems = [];
   
   for (const item of items) {
-    const product = await Product.findById(item.productId).exec({ signal: req.signal });
+    const product = await Product.findById(item.productId)
+      .setOptions({ signal: req.signal })
+      .exec();
     
     if (!product) {
       throw new NotFoundError(`Product ${item.productId}`);

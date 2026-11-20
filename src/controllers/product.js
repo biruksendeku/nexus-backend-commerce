@@ -305,7 +305,8 @@ exports.orderHistory = async (req, res) => {
 			.populate('user', 'name email') // user details
 			.populate('items.product', 'name price') // product details
 			.sort({ createdAt: -1 }) // newest first
-			.exec({ signal: req.signal });
+			.setOptions({ signal: req.signal })
+			.exec();
 
 		// check orders existance
 		if(!orders) {
@@ -351,7 +352,8 @@ exports.singleOrderHistory = async (req, res) => {
 			_id: orderId,
 			user: userId
 		}).populate('items.product', 'name images price category')
-		.exec({ signal: req.signal });
+		.setOptions({ signal: req.signal })
+		.exec();
 
 		// check order existance
 		if(!order) {
